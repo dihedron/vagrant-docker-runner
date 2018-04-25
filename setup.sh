@@ -38,7 +38,7 @@ if ! grep -q docker /etc/group; then
 fi
 
 # ADD GROUP TO CURRENT USER (VAGRANT) AND RELOAD
-if !  groups | grep -q docker ; then
+if [ ! $(getent group docker) ]; then
     echo "adding docker group to ${USER}..."
     sudo usermod -aG docker $USER
     GROUP=$(id -ng)
