@@ -1,6 +1,6 @@
 #!/bin/bash
 
-APT_QUIETNESS=""
+APT_QUIETNESS="" # can be -q or -qq
 
 # SYSTEM UPDATE
 echo "bringing system up-to-date..."
