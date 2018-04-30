@@ -3,7 +3,7 @@
 
 Vagrant.configure("2") do |config|
 
-    required_plugins = %w( vagrant-vbguest vagrant-disksize )
+    required_plugins = %w( vagrant-vbguest vagrant-disksize vagrant-proxyconf )
     _retry = false
     required_plugins.each do |plugin|
         unless Vagrant.has_plugin? plugin
@@ -17,7 +17,7 @@ Vagrant.configure("2") do |config|
     config.vm.define "dockervm"
     config.vm.box_check_update = false
 #   config.vm.network "forwarded_port", guest: 80, host: 8080
-    config.vm.network "private_network", ip: "192.168.33.12"
+#   config.vm.network "private_network", ip: "192.168.33.12"
     config.vm.provider "virtualbox" do |vb|
         vb.name = "Docker VM"
         vb.memory = "8192"
@@ -29,6 +29,18 @@ Vagrant.configure("2") do |config|
 #       sh.args = ["not used"]
     end  
 
-    config.vbguest.auto_update = true
-    config.disksize.size = '20GB'
+
+    if Vagrant.has_plugin?("vagrant-vbguest")
+        config.vbguest.auto_update = true
+    end
+
+    if Vagrant.has_plugin?("vagrant-disksize")
+        config.disksize.size = '20GB'
+    end
+
+    if Vagrant.has_plugin?("vagrant-proxyconf")
+        config.proxy.http     = "http://192.168.33.1:3128/"
+        config.proxy.https    = "http://192.168.33.1:3128/"
+        config.proxy.no_proxy = "localhost,127.0.0.1,.example.com"
+    end
 end

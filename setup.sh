@@ -31,14 +31,14 @@ if [ -z "$(apt-cache search docker-ce)" ]; then
 fi
 
 # DOCKER GROUP FOR NON-ROOT EXECUTION
-if ! grep -q docker /etc/group; then
+if [ ! $(getent group docker) ]; then
     echo "adding docker group..."
     sudo groupadd docker
     echo "... DONE!"
 fi
 
 # ADD GROUP TO CURRENT USER (VAGRANT) AND RELOAD
-if [ ! $(getent group docker) ]; then
+if ! groups | grep docker 2>&1 > /dev/null ; then
     echo "adding docker group to ${USER}..."
     sudo usermod -aG docker $USER
     GROUP=$(id -ng)
