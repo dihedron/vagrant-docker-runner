@@ -3,7 +3,10 @@
 
 Vagrant.configure("2") do |config|
 
-    required_plugins = %w( vagrant-vbguest vagrant-disksize vagrant-proxyconf )
+    # use this when behind a proxy:     
+#   required_plugins = %w( vagrant-vbguest vagrant-disksize vagrant-proxyconf )
+  
+    required_plugins = %w( vagrant-vbguest vagrant-disksize )  
     _retry = false
     required_plugins.each do |plugin|
         unless Vagrant.has_plugin? plugin
@@ -39,6 +42,9 @@ Vagrant.configure("2") do |config|
     end
 
     if Vagrant.has_plugin?("vagrant-proxyconf")
+        # let CNTLM listen on the vboxnet interface, set your localhost
+        # as the proxy for VirtualBox machines, so APT cen get through
+        # (tweak as needed!)
         config.proxy.http     = "http://192.168.33.1:3128/"
         config.proxy.https    = "http://192.168.33.1:3128/"
         config.proxy.no_proxy = "localhost,127.0.0.1,.example.com"
