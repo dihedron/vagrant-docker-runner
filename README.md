@@ -30,7 +30,7 @@ then tweak the proxy section:
 ```bash
     if Vagrant.has_plugin?("vagrant-proxyconf")
         # let CNTLM listen on the vboxnet interface, set your localhost
-        # as the proxy for VirtualBox machines, so APT cen get through
+        # as the proxy for VirtualBox machines, so APT can get through
         # (tweak as needed!)
         config.proxy.http     = "http://192.168.33.1:3128/"
         config.proxy.https    = "http://192.168.33.1:3128/"
